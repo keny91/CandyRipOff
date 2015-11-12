@@ -168,10 +168,75 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 
 	// STEP 1: GENERATE A NEW GRID WHERE THE 
 	Grid newGrid = Grid(dimension_x, dimension_y);
+	int Po1x, Po2x, Po1y, Po2y;
+
+	// 1 is the pos associated to the first move
+	int posA = grid_table[posX1][posY1];
+	int posB = grid_table[posX2][posY2];
+
 	//for
 
+	// SWAP THE POSITIONS OF BOTH POSITIONS
 
+	for (int i = 0; i < dimension_x; i++) {
+		for (int j = 0; j < dimension_y; j ++) {
+			newGrid.grid_table[i][j] = grid_table[i][j];
+		}
+	}
+
+	newGrid.grid_table[posX1][posY1] = posB;
+	newGrid.grid_table[posX2][posY2] = posA;
+
+	//Debug
+	newGrid.print_grid();
+
+	if (newGrid.checkTargets()) {
+
+	}
+	
 
 
 		return false;
+}
+
+
+/*
+	CheckTargets we check for horizontal and vertical lines
+*/
+bool Grid::checkTargets() {
+
+	int count;
+	int symbol;
+
+	// HORIZONTAL SEARCH
+	symbol = grid_table[0][0];
+	for (int i = 0; i < dimension_x;i++){
+		//count start as 0 in each row (the first count will set it to 1)
+		count = 0;		
+		for (int j = 0; j < dimension_y; j++) {
+			
+
+			// CASE 2: WE CONTINUE FINDING THE SAME SYMBOL
+			if (grid_table[i][j] == symbol) {
+				count++;
+				grid_table[i][j] = -1;
+				
+			}
+
+			// CASE 2: WE END THE STREAK
+			else{
+				
+
+				// RESET PREVIOUS VALUES THAT HAS BEEN SET TO -1
+				for (int streak = 1; streak <= count; streak++) {
+					grid_table[i][j - streak] = symbol;
+				}
+				// 
+				symbol = grid_table[i][j];
+				grid_table[i][j] = -1;
+				count = 1;
+			}
+		}
+	}
+
 }
