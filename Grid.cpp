@@ -164,6 +164,9 @@ bool Grid::ValidSwap(int posX1, int posX2, int posY1, int posY2) {
 
 
 
+/*
+Swaping: we interchange two contiguous cells, if CHECKTARGET() returns a positive response, the new Grid will suplant the actual grid.
+*/
 bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 
 	// STEP 1: GENERATE A NEW GRID WHERE THE 
@@ -190,10 +193,16 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 	//Debug
 	newGrid.print_grid();
 
+
+	// IF we destroy blocks int the process-> We sustitute our previous grid with this one
 	if (newGrid.checkTargets()) {
 
+
 	}
-	
+	// ELSE we remain with the original
+	else {
+		cout << "That moves has NO EFFECT";
+	}
 
 
 		return false;
