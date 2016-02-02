@@ -195,7 +195,7 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 
 
 	// IF we destroy blocks int the process-> We sustitute our previous grid with this one
-	if (newGrid.checkTargets()) {
+	if (newGrid.checkTargetsHorizontal()) {
 
 
 	}
@@ -212,10 +212,10 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 /*
 	CheckTargets we check for horizontal and vertical lines
 */
-bool Grid::checkTargets() {
+bool Grid::checkTargetsHorizontal() {
 
 	int count;
-	int symbol;
+	int symbol; // the symbol we are checking at the moment
 
 	// HORIZONTAL SEARCH
 	symbol = grid_table[0][0];
@@ -248,4 +248,8 @@ bool Grid::checkTargets() {
 		}
 	}
 
+
+
+
+	return false;
 }

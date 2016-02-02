@@ -22,7 +22,8 @@ public:
 	bool Grid::ValidSwap(int posX1, int posX2, int posY1, int posY2);
 	bool Swaping(int posX1, int posX2, int posY1, int posY2);
 	int ** grid_table;
-	bool checkTargets();
+	bool checkTargetsHorizontal();
+	bool checkTargetsVertical();
 
 private:
 	// Nº of rows and cols
