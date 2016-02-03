@@ -82,6 +82,17 @@ int main()
 	TheGrid.print_grid();
 
 
+	
+	bool looping1 = TheGrid.checkTargetsHorizontal();
+	bool looping2 = TheGrid.checkTargetsVertical();
+
+	while (looping1 || looping2) {
+		looping1 = TheGrid.checkTargetsHorizontal();
+		looping2 = TheGrid.checkTargetsVertical();
+	}
+
+	TheGrid.theStreak = 0;
+
     return 0;
 }
 

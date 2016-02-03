@@ -11,6 +11,8 @@ class Grid
 public:
 	Grid();
 	~Grid();
+	int puntuation;
+	int theStreak;
 	void ClearGrid();
 	int dimension_x;
 	int dimension_y;
@@ -24,6 +26,7 @@ public:
 	int ** grid_table;
 	bool checkTargetsHorizontal();
 	bool checkTargetsVertical();
+	void AddPoints(int counted_Symbols, int Streak);
 
 private:
 	// Nº of rows and cols

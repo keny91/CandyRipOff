@@ -13,6 +13,9 @@ Grid :: Grid(int dimX = 10, int dimY = 10) {
 	dimension_x = dimX ;
 	dimension_y = dimY ;
 
+	puntuation = 0;
+	theStreak = 0;
+
 	grid_table = new int*[dimY];
 	for (int i = 0; i < dimY; ++i) {
 		grid_table[i] = new int[dimX];
@@ -196,7 +199,7 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 
 	// IF we destroy blocks int the process-> We sustitute our previous grid with this one
 	if (newGrid.checkTargetsHorizontal()) {
-
+		
 
 	}
 	// ELSE we remain with the original
@@ -235,13 +238,17 @@ bool Grid::checkTargetsHorizontal() {
 			// CASE 2: WE END THE STREAK
 			else{
 				
+				if (count >= 3) {
+					theStreak++;  //increase the streak
+					AddPoints(count, theStreak);		// 
+				}
 
 				// RESET PREVIOUS VALUES THAT HAS BEEN SET TO -1
 				for (int streak = 1; streak <= count; streak++) {
 					grid_table[i][j - streak] = symbol;
 				}
 				// 
-				symbol = grid_table[i][j];
+				symbol = grid_table[i][j];   // We take the new value as the new symbol
 				grid_table[i][j] = -1;
 				count = 1;
 			}
@@ -252,4 +259,67 @@ bool Grid::checkTargetsHorizontal() {
 
 
 	return false;
+}
+
+
+
+/*
+CheckTargets we check for horizontal and vertical lines
+*/
+bool Grid::checkTargetsVertical() {
+
+	int count;
+	int symbol; // the symbol we are checking at the moment
+
+				// HORIZONTAL SEARCH
+	symbol = grid_table[0][0];
+	for (int i = 0; i < dimension_y; i++) {
+		//count start as 0 in each row (the first count will set it to 1)
+		count = 0;
+		for (int j = 0; j < dimension_x; j++) {
+
+
+			// CASE 2: WE CONTINUE FINDING THE SAME SYMBOL
+			if (grid_table[i][j] == symbol) {
+				count++;
+				grid_table[i][j] = -1;
+
+			}
+
+			// CASE 2: WE END THE STREAK
+			else {
+
+				if (count >= 3) {
+					theStreak++;  //increase the streak
+					AddPoints(count, theStreak);		// 
+				}
+
+				// RESET PREVIOUS VALUES THAT HAS BEEN SET TO -1
+				for (int streak = 1; streak <= count; streak++) {
+					grid_table[i][j - streak] = symbol;
+				}
+				// 
+				symbol = grid_table[i][j];   // We take the new value as the new symbol
+				grid_table[i][j] = -1;
+				count = 1;
+			}
+		}
+	}
+
+
+
+
+	return false;
+}
+
+
+/*
+	Count Points:
+		Points depend directly in the consecutive streak and the number of   
+*/
+
+void Grid::AddPoints(int counted_Symbols, int Streak) {
+	cout << counted_Symbols * 10 * Streak;
+	puntuation = puntuation + counted_Symbols * 10 * Streak;
+
 }
