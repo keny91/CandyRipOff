@@ -83,13 +83,27 @@ int main()
 
 
 	
-	bool looping1 = TheGrid.checkTargetsHorizontal();
-	bool looping2 = TheGrid.checkTargetsVertical();
+	bool looping1 = true;
+	//bool looping2 = TheGrid.checkTargetsVertical();
+	TheGrid.print_grid();
 
-	while (looping1 || looping2) {
+	while (looping1 ) {
 		looping1 = TheGrid.checkTargetsHorizontal();
-		looping2 = TheGrid.checkTargetsVertical();
+		TheGrid.SwapEmpty();
+		TheGrid.RegenerateEmptyCells();
+		TheGrid.print_grid();
+		//looping2 = TheGrid.checkTargetsVertical();
+		cout << "\nSTREAK\n";
+		cout << TheGrid.theStreak;
+		cout << "\nPUNTUATION\n";
+		cout << TheGrid.puntuation;
 	}
+
+	TheGrid.SwapEmpty();
+	TheGrid.RegenerateEmptyCells();
+
+
+
 
 	TheGrid.theStreak = 0;
 

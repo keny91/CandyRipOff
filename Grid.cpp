@@ -153,6 +153,23 @@ void Grid::print_grid ()
 
 bool Grid::ValidSwap(int posX1, int posX2, int posY1, int posY2) {
 
+
+	if (posX1 >= dimension_x || posX2 >= dimension_x || posY1 >= dimension_y || posY2 >= dimension_y || posX2 <= 0 || posX1 <= 0 || posY1 <= 0 || posY1 <= 0 ){
+	
+		cout << "invalid input: out of bounds";
+		return false;
+	}
+
+	if (posX1 == posX2 )
+	{
+		cout << "invalid input: X inputs are the same";
+	}
+
+	if (posY1 == posY2)
+	{
+		cout << "invalid input: Y inputs are the same";
+	}
+
 	if (((std::abs(posX1 - posX2) ==1 )&& (std::abs(posY1 - posY2) == 0))
 		|| ((std::abs(posY1 - posY2) == 1) && (std::abs(posX1 - posX2) == 0))) {
 
@@ -160,8 +177,11 @@ bool Grid::ValidSwap(int posX1, int posX2, int posY1, int posY2) {
 	}
 
 
-	else
+	else {
+		cout << "invalid input: not contiguous";
 		return false;
+	}
+		
 }
 
 
@@ -184,6 +204,9 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 
 	// SWAP THE POSITIONS OF BOTH POSITIONS
 
+	if (ValidSwap(posX1,posX2,posY1,posY2)) {
+
+	// Create a duplicate
 	for (int i = 0; i < dimension_x; i++) {
 		for (int j = 0; j < dimension_y; j ++) {
 			newGrid.grid_table[i][j] = grid_table[i][j];
@@ -199,15 +222,15 @@ bool Grid::Swaping(int posX1, int posX2, int posY1, int posY2) {
 
 	// IF we destroy blocks int the process-> We sustitute our previous grid with this one
 	if (newGrid.checkTargetsHorizontal()) {
-		
-
+		grid_table = newGrid.grid_table;
 	}
+
 	// ELSE we remain with the original
 	else {
 		cout << "That moves has NO EFFECT";
 	}
 
-
+	}
 		return false;
 }
 
@@ -221,36 +244,53 @@ bool Grid::checkTargetsHorizontal() {
 	int symbol; // the symbol we are checking at the moment
 
 	// HORIZONTAL SEARCH
-	symbol = grid_table[0][0];
+	
 	for (int i = 0; i < dimension_x;i++){
 		//count start as 0 in each row (the first count will set it to 1)
 		count = 0;		
+		symbol = grid_table[0][0];
+
 		for (int j = 0; j < dimension_y; j++) {
 			
 
 			// CASE 2: WE CONTINUE FINDING THE SAME SYMBOL
 			if (grid_table[i][j] == symbol) {
 				count++;
-				grid_table[i][j] = -1;
+				grid_table[i][j] = 0;
+				//cout << "\n\n";
+				//print_grid();
 				
+				if (i+1 == dimension_x) {
+					grid_table[i][j] = symbol;
+				}
+
 			}
+
+			
+
 
 			// CASE 2: WE END THE STREAK
 			else{
-				
+				// Success
 				if (count >= 3) {
 					theStreak++;  //increase the streak
-					AddPoints(count, theStreak);		// 
+					AddPoints(count, theStreak);	
+					count = 1;// 
 				}
 
 				// RESET PREVIOUS VALUES THAT HAS BEEN SET TO -1
-				for (int streak = 1; streak <= count; streak++) {
-					grid_table[i][j - streak] = symbol;
+				else
+				{
+					
+					for (int streak = 1; streak <= count; streak++) {
+						grid_table[i][j - streak] = symbol;
+					}
+					// 
+					symbol = grid_table[i][j];   // We take the new value as the new symbol
+					grid_table[i][j] = 0;
+					count = 1;
 				}
-				// 
-				symbol = grid_table[i][j];   // We take the new value as the new symbol
-				grid_table[i][j] = -1;
-				count = 1;
+				
 			}
 		}
 	}
@@ -283,6 +323,7 @@ bool Grid::checkTargetsVertical() {
 			if (grid_table[i][j] == symbol) {
 				count++;
 				grid_table[i][j] = -1;
+				
 
 			}
 
@@ -292,16 +333,19 @@ bool Grid::checkTargetsVertical() {
 				if (count >= 3) {
 					theStreak++;  //increase the streak
 					AddPoints(count, theStreak);		// 
+					count = 1;
 				}
 
+				else{
 				// RESET PREVIOUS VALUES THAT HAS BEEN SET TO -1
 				for (int streak = 1; streak <= count; streak++) {
 					grid_table[i][j - streak] = symbol;
 				}
 				// 
 				symbol = grid_table[i][j];   // We take the new value as the new symbol
-				grid_table[i][j] = -1;
+				grid_table[i][j] = 0;
 				count = 1;
+				}
 			}
 		}
 	}
